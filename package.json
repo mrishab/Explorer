@@ -11,5 +11,12 @@
   "devDependencies": {
     "jasmine": "^3.5.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrishab/Explorer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mrishab/Explorer/issues"
+  }
 }
