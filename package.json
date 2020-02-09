@@ -1,0 +1,11 @@
+{
+  "name": "explorer",
+  "version": "1.0.0",
+  "description": "Represents an OS explorer and wraps common operations performed on a directory",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "author": "Rishab Manocha",
+  "license": "ISC"
+}
