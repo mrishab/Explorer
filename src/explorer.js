@@ -27,20 +27,23 @@ class Explorer {
     move(filename, newDir) {
         const oldPath = path.resolve(this.path, filename);
         const newPath = path.resolve(newDir, filename);
+
         return new Promise((res, rej) => {
-            fs.rename(oldPath, newPath, err => {
-                if (err) {
-                    rej(err);
-                } else {
-                    res();
-                }
-            });
+            fs.rename(oldPath, newPath, err => err ? rej(err) : res());
         });
     }
 
-    _setDirectoryContext(path) {
+    writeFile(filename, encoding, data) {
+        const filePath = path.resolve(this.dir, filename);
+
         return new Promise((res, rej) => {
-            fs.readdir(this.dir, (err, files) => {
+            fs.writeFile(filePath, data, encoding, (err) => err ? rej(err) : res());
+        });
+    }
+
+    _setDirectoryContext(dir) {
+        return new Promise((res, rej) => {
+            fs.readdir(dir, (err, files) => {
                 if (err) {
                     rej(err);
                 } else {

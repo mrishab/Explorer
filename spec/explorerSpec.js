@@ -133,4 +133,35 @@ describe("Explorer Spec", () => {
 
         done();
     });
+
+    it("writeFile writes a file with data, encoding to filename provided", async done => {
+        spyOn(explorer, 'setPath').and.callFake(dir => new Promise(res => {
+            explorer.dir = dir
+            res();
+        }));
+
+        spyOn(fs, 'writeFile').and.callFake((filepath, data, encoding, cb) => cb(undefined));
+
+        await explorer.setPath("/path/to/dir");
+        await explorer.writeFile("FILENAME.ext", "ENCODING", "DATA");
+
+        const exPath = resolve("/path/to/dir", "FILENAME.ext");
+        expect(fs.writeFile).toHaveBeenCalledWith(exPath, "DATA", "ENCODING", jasmine.any(Function));
+
+        done();
+    });
+
+    it("writeFile propagates the exception thrown by fs.writeFile", async done => {
+        spyOn(explorer, 'setPath').and.callFake(dir => new Promise(res => {
+            explorer.dir = dir
+            res();
+        }));
+
+        spyOn(fs, 'writeFile').and.callFake((filepath, data, encoding, cb) => cb(new Error("Failed to write to file")));
+
+        await explorer.setPath("/path/to/dir");
+        await expectAsync(explorer.writeFile("FILENAME.ext", "ENCODING", "DATA")).toBeRejectedWithError("Failed to write to file");
+
+        done();
+    });
 });
